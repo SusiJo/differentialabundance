@@ -96,8 +96,8 @@ workflow DIFFERENTIAL_FUNCTIONAL_ENRICHMENT {
     CUSTOM_TABULARTOGSEACLS(ch_input_for_gsea.contrasts_and_samples)
 
     CUSTOM_TABULARTOGSEACHIP(
-        ch_input_for_gsea.features.first(),
-        ch_input_for_gsea.features_cols.first()
+        ch_input_for_gsea.features,
+        ch_input_for_gsea.features_cols
     )
 
     ch_input_for_gsea = CUSTOM_TABULARTOGSEAGCT.out.gct
@@ -107,7 +107,7 @@ workflow DIFFERENTIAL_FUNCTIONAL_ENRICHMENT {
     GSEA_GSEA(
         ch_input_for_gsea,
         ch_input_for_gsea.map{ tuple(it[0].reference, it[0].target) },
-        CUSTOM_TABULARTOGSEACHIP.out.chip.first()
+        CUSTOM_TABULARTOGSEACHIP.out.chip
     )
 
     // ----------------------------------------------------

@@ -91,14 +91,14 @@ workflow ABUNDANCE_DIFFERENTIAL_FILTER {
         norm_inputs.samples_and_matrix.filter{it[0].differential_method == 'limma'}
     )
 
-    ch_versions = ch_versions.mix(LIMMA_NORM.out.versions.first())
+    ch_versions = ch_versions.mix(LIMMA_NORM.out.versions)
 
     LIMMA_DIFFERENTIAL(
         inputs.contrasts_for_diff.filter{ it[0].differential_method == 'limma' },
         inputs.samples_and_matrix.filter{ it[0].differential_method == 'limma' }
     )
 
-    ch_versions = ch_versions.mix(LIMMA_DIFFERENTIAL.out.versions.first())
+    ch_versions = ch_versions.mix(LIMMA_DIFFERENTIAL.out.versions)
 
     // ----------------------------------------------------
     // Run DESeq2
@@ -118,7 +118,7 @@ workflow ABUNDANCE_DIFFERENTIAL_FILTER {
         norm_inputs.transcript_length.filter{it[0].differential_method == 'deseq2'}
     )
 
-    ch_versions = ch_versions.mix(DESEQ2_NORM.out.versions.first())
+    ch_versions = ch_versions.mix(DESEQ2_NORM.out.versions)
 
     DESEQ2_DIFFERENTIAL(
         inputs.contrasts_for_diff.filter{it[0].differential_method == 'deseq2'},
@@ -127,7 +127,7 @@ workflow ABUNDANCE_DIFFERENTIAL_FILTER {
         inputs.transcript_length.filter{it[0].differential_method == 'deseq2'}
     )
 
-    ch_versions = ch_versions.mix(DESEQ2_DIFFERENTIAL.out.versions.first())
+    ch_versions = ch_versions.mix(DESEQ2_DIFFERENTIAL.out.versions)
 
     // ----------------------------------------------------
     // Run propd
@@ -141,7 +141,7 @@ workflow ABUNDANCE_DIFFERENTIAL_FILTER {
         inputs.samples_and_matrix.filter { it[0].differential_method == 'propd' }
     )
 
-    ch_versions = ch_versions.mix(PROPR_PROPD.out.versions.first())
+    ch_versions = ch_versions.mix(PROPR_PROPD.out.versions)
 
     // ----------------------------------------------------
     // Run DREAM
@@ -158,7 +158,7 @@ workflow ABUNDANCE_DIFFERENTIAL_FILTER {
         inputs.samples_and_matrix.filter{ it[0].differential_method == 'dream' }
     )
 
-    ch_versions = ch_versions.mix( VARIANCEPARTITION_DREAM.out.versions.first() )
+    ch_versions = ch_versions.mix( VARIANCEPARTITION_DREAM.out.versions)
 
     // ----------------------------------------------------
     // Collect results
@@ -224,7 +224,7 @@ workflow ABUNDANCE_DIFFERENTIAL_FILTER {
         ch_diff_filter_params.fc_input,
         ch_diff_filter_params.stat_input
     )
-    ch_versions = ch_versions.mix(CUSTOM_FILTERDIFFERENTIALTABLE.out.versions.first())
+    ch_versions = ch_versions.mix(CUSTOM_FILTERDIFFERENTIALTABLE.out.versions)
 
     emit:
     // main results
