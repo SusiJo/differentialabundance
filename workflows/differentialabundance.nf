@@ -774,10 +774,14 @@ workflow DIFFERENTIALABUNDANCE {
     // Prepare input for report generation
     // Each paramset will generate one markdown report by gathering all the files created with the same paramset
 
+    ch_validated_contrast.dump(tag:'ch_validated_contrast', pretty: true)
+    ch_contrasts_sorted.dump(tag:'ch_sorted contrasts', pretty: true)
+    ch_differential_grouped.dump(tag:'ch_differential_grouped', pretty: true)
+
     ch_report_input = ch_report_files    // [meta, [report_file, logo_file, css_file, citations_file]]
         .combine(ch_collated_versions)   // [versions file]
         .join(ch_all_matrices)           // [meta, samplesheet, features, [matrices]]
-        .join(ch_validated_contrast)     // [meta, contrast file]
+        .join(ch_contrasts_sorted)     // [meta, contrast file]
         .join(ch_differential_grouped)   // [meta, [differential results and models]]
         .join(ch_functional_grouped, remainder: true) // [meta, [functional results]]
         .map { [it[0], it.tail().flatten().grep()] }  // [meta, [files]]   // note that grep() would remove null files from join with remainder true
